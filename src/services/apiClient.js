@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3004';
+
 
 export const TOKEN_KEY = 'auditflow_token';
 export const USER_KEY = 'auditflow_user';
@@ -6,6 +7,8 @@ export const USER_KEY = 'auditflow_user';
 function getToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
+
+
 
 export function viderSessionLocale() {
   localStorage.removeItem(TOKEN_KEY);
