@@ -10,6 +10,7 @@ import DocumentsView from '@/views/DocumentsView.vue';
 import UtilisateursView from '@/views/UtilisateursView.vue';
 import JournalView from '@/views/JournalView.vue';
 import ProfilView from '@/views/ProfilView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 // `meta.roles` reprend exactement les droits d'accès de l'ancien routeur.
 // Une page sans `roles` est ouverte à tous les utilisateurs connectés.
@@ -73,8 +74,12 @@ const routes = [
     meta: { titre: 'Mon profil' },
   },
   {
+    // Affiche la page 404 plutôt que de rediriger en silence : une URL fautive
+    // doit se voir. `public` la rend visible connecté ou non.
     path: '/:pathMatch(.*)*',
-    redirect: () => ({ name: useAuthStore().routeParDefaut }),
+    name: 'introuvable',
+    component: NotFoundView,
+    meta: { public: true },
   },
 ];
 
@@ -90,7 +95,9 @@ router.beforeEach((to) => {
     return to.meta.public ? true : { name: 'login' };
   }
 
-  if (to.meta.public) {
+  // Seule la connexion est interdite à un utilisateur déjà connecté ; la
+  // page 404 est publique mais doit rester affichable dans les deux cas.
+  if (to.name === 'login') {
     return { name: auth.routeParDefaut };
   }
 
