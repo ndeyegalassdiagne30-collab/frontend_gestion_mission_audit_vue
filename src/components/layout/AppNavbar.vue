@@ -1,13 +1,18 @@
 <script setup>
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.js';
 import UserAvatar from '@/components/ui/UserAvatar.vue';
 
-defineEmits(['ouvrir-menu']);
-
+const route = useRoute();
 const auth = useAuthStore();
 
 const prenomAffiche = computed(() => auth.utilisateur?.prenom || 'Utilisateur');
+
+// Sur mobile, l'en-tête affiche le titre de la page : la navigation est
+// assurée par la barre d'onglets du bas (AppBottomBar), plus par un menu
+// hamburger.
+const titrePage = computed(() => route.meta.titre || 'AuditFlow');
 </script>
 
 <template>
@@ -15,17 +20,12 @@ const prenomAffiche = computed(() => auth.utilisateur?.prenom || 'Utilisateur');
     class="af-header fixed inset-x-0 top-0 z-20 flex h-16 items-center justify-between gap-4 border-b border-slate-200/80 px-4 sm:px-6 lg:left-72"
   >
     <div class="flex min-w-0 items-center gap-3">
-      <button
-        type="button"
-        @click="$emit('ouvrir-menu')"
-        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 lg:hidden"
-        aria-label="Ouvrir le menu"
-      >
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      <h2 class="truncate text-base font-extrabold tracking-tight text-slate-900 lg:hidden">
+        {{ titrePage }}
+      </h2>
 
       <label
-        class="af-search relative hidden items-center rounded-full border border-slate-200 bg-slate-50 sm:flex"
+        class="af-search relative hidden items-center rounded-full border border-slate-200 bg-slate-50 lg:flex"
       >
         <i
           class="fa-solid fa-magnifying-glass pointer-events-none absolute left-4 text-sm text-slate-400"

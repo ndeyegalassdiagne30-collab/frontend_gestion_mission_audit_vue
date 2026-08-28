@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.js';
+import { useNavigation } from '@/composables/useNavigation.js';
 
 defineProps({
   ouverte: { type: Boolean, default: false },
@@ -13,53 +13,9 @@ const route = useRoute();
 const router = useRouter();
 const auth = useAuthStore();
 
-const LIENS_ADMIN = [
-  { nom: 'dashboard', label: 'Tableau de bord', icone: 'fa-table-cells-large' },
-  { nom: 'utilisateurs', label: 'Utilisateurs', icone: 'fa-user' },
-  { nom: 'journal', label: "Journal d'activité", icone: 'fa-list-check' },
-  { nom: 'clients', label: 'Clients', icone: 'fa-users' },
-  { nom: 'missions', label: "Mission d'audit", icone: 'fa-briefcase' },
-  { nom: 'documents', label: 'Documents', icone: 'fa-file-lines' },
-  { nom: 'profil', label: 'Mon profil', icone: 'fa-circle-user' },
-];
-
-const LIENS_EXPERT = [
-  { nom: 'dashboard', label: 'Tableau de bord', icone: 'fa-table-cells-large' },
-  { nom: 'clients', label: 'Clients', icone: 'fa-users' },
-  { nom: 'missions', label: "Mission d'audit", icone: 'fa-briefcase' },
-  { nom: 'affectations', label: 'Affectation des auditeurs', icone: 'fa-user-check' },
-  { nom: 'documents', label: 'Documents', icone: 'fa-file-lines' },
-  { nom: 'profil', label: 'Mon profil', icone: 'fa-circle-user' },
-];
-
-const LIENS_AUDITEUR = [
-  { nom: 'dashboard', label: 'Tableau de bord', icone: 'fa-table-cells-large' },
-  { nom: 'missions', label: 'Mes missions', icone: 'fa-briefcase' },
-  { nom: 'documents', label: 'Documents', icone: 'fa-file-lines' },
-  { nom: 'profil', label: 'Mon profil', icone: 'fa-circle-user' },
-];
-
-const LIENS_CLIENT = [
-  { nom: 'missions', label: 'Mes missions', icone: 'fa-briefcase' },
-  { nom: 'profil', label: 'Mon profil', icone: 'fa-circle-user' },
-];
-
-// Liens de navigation autorisés selon le rôle de l'utilisateur connecté
-const liens = computed(() => {
-  if (auth.estAdmin) {
-    return LIENS_ADMIN;
-  }
-
-  if (auth.estExpertComptable) {
-    return LIENS_EXPERT;
-  }
-
-  if (auth.estClient) {
-    return LIENS_CLIENT;
-  }
-
-  return LIENS_AUDITEUR;
-});
+// Liens partagés avec la barre d'onglets mobile (AppBottomBar) : une seule
+// liste à maintenir pour les deux navigations.
+const { liens } = useNavigation();
 
 async function seDeconnecter() {
   await auth.logout();

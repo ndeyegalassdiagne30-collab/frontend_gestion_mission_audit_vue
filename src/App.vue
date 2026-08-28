@@ -4,6 +4,7 @@ import { RouterView, useRoute } from 'vue-router';
 
 import AppSidebar from '@/components/layout/AppSidebar.vue';
 import AppNavbar from '@/components/layout/AppNavbar.vue';
+import AppBottomBar from '@/components/layout/AppBottomBar.vue';
 import AppDrawer from '@/components/ui/AppDrawer.vue';
 import ConfirmDialog from '@/components/ui/ConfirmDialog.vue';
 import ToastContainer from '@/components/ui/ToastContainer.vue';
@@ -24,13 +25,17 @@ watch(() => route.fullPath, () => {
 <template>
   <template v-if="afficherLayout">
     <AppSidebar v-model:ouverte="sidebarOuverte" />
-    <AppNavbar @ouvrir-menu="sidebarOuverte = true" />
+    <AppNavbar />
 
-    <main class="min-h-screen pt-16 lg:pl-72">
+    <!-- af-main : réserve la hauteur de la barre d'onglets (et l'encoche des
+         iPhone) sous le contenu, sinon les derniers éléments passent dessous. -->
+    <main class="af-main min-h-screen pt-16 lg:pl-72">
       <div class="px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
         <RouterView />
       </div>
     </main>
+
+    <AppBottomBar @ouvrir-menu="sidebarOuverte = true" />
   </template>
 
   <RouterView v-else />
