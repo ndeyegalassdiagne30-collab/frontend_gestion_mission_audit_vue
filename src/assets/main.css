@@ -1,10 +1,6 @@
 @import "tailwindcss";
 
-/* ===========================================================================
-   Thème Tailwind v4
-   Reprend à l'identique le contenu de l'ancien tailwind.config.js (v3) :
-   la palette de marque, la police et l'ombre "soft".
-   =========================================================================== */
+
 
 @theme {
   /* Police */
@@ -51,7 +47,7 @@
 }
 
 /* ===========================================================================
-   Design AuditFlow (ancien css/style.css, repris tel quel)
+   Design AuditFlow (ancien css/style.css, 
    =========================================================================== */
 
 :root {
