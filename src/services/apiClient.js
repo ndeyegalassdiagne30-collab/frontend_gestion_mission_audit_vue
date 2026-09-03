@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-gestion-mission-audit-hono.onrender.com/';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-gestion-mission-audit-hono.onrender.com';
 
 
 export const TOKEN_KEY = 'auditflow_token';
